@@ -1,11 +1,49 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-  </head>
-  <body>
-    <h1>Hello World</h1>
-  </body>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>Novo Pedido</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+</head>
+<body>
+  <h1>Novo Pedido</h1>
+
+  {% if error_message %}
+    <div class="error-message">
+      {{ error_message }}
+    </div>
+  {% endif %}
+
+  <form method="post" id="pedidoForm">
+    <label for="customer_name">Nome do Cliente</label>
+    <input type="text" id="customer_name" name="customer_name" required />
+
+    <label for="salesperson_name">Nome do Vendedor</label>
+    <input type="text" id="salesperson_name" name="salesperson_name" required />
+
+    <label for="order_date">Data do Pedido</label>
+    <input type="date" id="order_date" name="order_date" required />
+
+    <h1>Selecionar Produtos</h1>
+
+    <div id="product-list-container">
+      <div id="product-list">
+        {% for product in products %}
+          <div class="product-item">
+            <input type="checkbox" name="products" value="{{ product.productid }}" />
+            <span class="product-name" title="{{ product.productname }}">{{ product.productname }}</span>
+            <input type="number" name="quantity_{{ product.productid }}" placeholder="Ex: 2" min="1" />
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <div class="form-buttons">
+      <button type="submit" formaction="/insert_insecure">Inserir ⚠️</button>
+      <button type="submit" formaction="/insert_secure">Inserir ✅</button>
+    </div>
+  </form>
+
+  <script src="{{ url_for('static', filename='js/script.js') }}" defer></script>
+</body>
 </html>

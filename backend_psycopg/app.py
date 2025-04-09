@@ -4,6 +4,7 @@ import psycopg
 from flask import Flask, render_template
 from routes.api import api_bp
 from config import DB_HOST, DB_PORT, DB_USER, DB_PASS, DB_NAME, DB_SCHEMA
+from daos.product_dao import ProductDAO
 
 app = Flask(__name__, template_folder="templates")
 app.config.from_object("config")
@@ -12,8 +13,12 @@ app.register_blueprint(api_bp)
 
 @app.route("/")
 def index():
-    return render_template("index.html")
-
+    try:
+        products = ProductDAO().get_all()
+        return render_template("index.html", products=products)
+    except Exception as e:
+        print(f"Erro ao carregar produtos: {e}")
+        return render_template("index.html", products=[], error_message="Erro ao carregar produtos.")
 
 def wait_for_db(retry_delay=2, max_retries=60):
     """Wait until the database is ready before starting the application."""
