@@ -1,4 +1,7 @@
-from flask import Blueprint, jsonify
+from flask import Blueprint, jsonify, request
+from psycopg import DatabaseError
+from exceptions import InvalidOrderDataError, OrderAlreadyExistsError
+from models.psycopg_models import Orders
 from controllers.order_controller import OrderController
 
 
@@ -35,3 +38,27 @@ def get_order(order_id):
 
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+
+
+@orders_bp.route("/", methods=["POST"])
+def create_order():
+    try:
+        order_data = request.get_json()
+        order = Orders(**order_data)
+        order_id = order_controller.create_order(order)
+        return (
+            jsonify({"message": "Order created successfully", "order_id": order_id}),
+            201,
+        )
+
+    except OrderAlreadyExistsError as oae:
+        return jsonify({"error": str(oae)}), 409
+
+    except InvalidOrderDataError as iode:
+        return jsonify({"error": str(iode)}), 400
+
+    except DatabaseError as de:
+        return jsonify({"error": str(de)}), 500
+
+    except Exception as e:
+        return jsonify({"error": "Unexpected error", "details": str(e)}), 500

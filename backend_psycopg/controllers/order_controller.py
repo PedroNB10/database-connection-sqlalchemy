@@ -1,4 +1,6 @@
 from daos.order_dao import OrderDAO
+from models.psycopg_models import Orders
+from exceptions import OrderAlreadyExistsError, InvalidOrderDataError, DatabaseError
 
 
 class OrderController:
@@ -18,3 +20,14 @@ class OrderController:
         except Exception as e:
             print(f"Erro no OrderController.get_order_by_id: {e}")
             raise
+
+    def create_order(self, order: Orders):
+        try:
+            order_exists = self.order_dao.get_by_id(order.orderid)
+            if order_exists:
+                raise OrderAlreadyExistsError("Order with this ID already exists.")
+            return self.order_dao.create(order)
+        except OrderAlreadyExistsError:
+            raise
+        except Exception as e:
+            raise DatabaseError("An error occurred while creating the order") from e
