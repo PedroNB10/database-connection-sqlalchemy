@@ -5,3 +5,5 @@ sqlacodegen==3.0.0
 SQLAlchemy==2.0.40
 sqlalchemy-citext==1.8.0
 python-dotenv==1.0.1
+Flask==2.2.2
+psycopg-pool==3.2.6
