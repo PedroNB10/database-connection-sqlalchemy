@@ -5,7 +5,7 @@ import datetime
 import decimal
 
 class Categories:
-    def __init__(self, categoryid: int, categoryname: Optional[str], description: Optional[str], rate: Optional[decimal.Decimal]):
+    def __init__(self, categoryid: int = None, categoryname: Optional[str] = None, description: Optional[str] = None, rate: Optional[decimal.Decimal] = None):
         self.categoryid: int = categoryid
         self.categoryname: Optional[str] = categoryname
         self.description: Optional[str] = description
@@ -13,7 +13,7 @@ class Categories:
 
 
 class Customers:
-    def __init__(self, customerid: str, companyname: Optional[str], contactname: Optional[str], contacttitle: Optional[str], address: Optional[str], city: Optional[str], region: Optional[str], postalcode: Optional[str], country: Optional[str], phone: Optional[str], fax: Optional[str]):
+    def __init__(self, customerid: str = None, companyname: Optional[str] = None, contactname: Optional[str] = None, contacttitle: Optional[str] = None, address: Optional[str] = None, city: Optional[str] = None, region: Optional[str] = None, postalcode: Optional[str] = None, country: Optional[str] = None, phone: Optional[str] = None, fax: Optional[str] = None):
         self.customerid: str = customerid
         self.companyname: Optional[str] = companyname
         self.contactname: Optional[str] = contactname
@@ -28,7 +28,7 @@ class Customers:
 
 
 class Employees:
-    def __init__(self, employeeid: int, lastname: Optional[str], firstname: Optional[str], title: Optional[str], titleofcourtesy: Optional[str], birthdate: Optional[datetime.datetime], hiredate: Optional[datetime.datetime], address: Optional[str], city: Optional[str], region: Optional[str], postalcode: Optional[str], country: Optional[str], homephone: Optional[str], extension: Optional[str], reportsto: Optional[int], notes: Optional[str]):
+    def __init__(self, employeeid: int = None, lastname: Optional[str] = None, firstname: Optional[str] = None, title: Optional[str] = None, titleofcourtesy: Optional[str] = None, birthdate: Optional[datetime.datetime] = None, hiredate: Optional[datetime.datetime] = None, address: Optional[str] = None, city: Optional[str] = None, region: Optional[str] = None, postalcode: Optional[str] = None, country: Optional[str] = None, homephone: Optional[str] = None, extension: Optional[str] = None, reportsto: Optional[int] = None, notes: Optional[str] = None):
         self.employeeid: int = employeeid
         self.lastname: Optional[str] = lastname
         self.firstname: Optional[str] = firstname
@@ -48,7 +48,7 @@ class Employees:
 
 
 class OrderDetails:
-    def __init__(self, orderid: int, productid: int, unitprice: Optional[decimal.Decimal], quantity: Optional[int], discount: Optional[decimal.Decimal]):
+    def __init__(self, orderid: int = None, productid: int = None, unitprice: Optional[decimal.Decimal] = None, quantity: Optional[int] = None, discount: Optional[decimal.Decimal] = None):
         self.orderid: int = orderid
         self.productid: int = productid
         self.unitprice: Optional[decimal.Decimal] = unitprice
@@ -57,14 +57,14 @@ class OrderDetails:
 
 
 class Shippers:
-    def __init__(self, shipperid: int, companyname: Optional[str], phone: Optional[str]):
+    def __init__(self, shipperid: int = None, companyname: Optional[str] = None, phone: Optional[str] = None):
         self.shipperid: int = shipperid
         self.companyname: Optional[str] = companyname
         self.phone: Optional[str] = phone
 
 
 class Suppliers:
-    def __init__(self, supplierid: int, companyname: Optional[str], contactname: Optional[str], contacttitle: Optional[str], address: Optional[str], city: Optional[str], region: Optional[str], postalcode: Optional[str], country: Optional[str], phone: Optional[str], fax: Optional[str], homepage: Optional[str]):
+    def __init__(self, supplierid: int = None, companyname: Optional[str] = None, contactname: Optional[str] = None, contacttitle: Optional[str] = None, address: Optional[str] = None, city: Optional[str] = None, region: Optional[str] = None, postalcode: Optional[str] = None, country: Optional[str] = None, phone: Optional[str] = None, fax: Optional[str] = None, homepage: Optional[str] = None):
         self.supplierid: int = supplierid
         self.companyname: Optional[str] = companyname
         self.contactname: Optional[str] = contactname
@@ -80,7 +80,7 @@ class Suppliers:
 
 
 class Orders:
-    def __init__(self, orderid: int, customerid: str, employeeid: int, orderdate: Optional[datetime.datetime], requireddate: Optional[datetime.datetime], shippeddate: Optional[datetime.datetime], freight: Optional[decimal.Decimal], shipname: Optional[str], shipaddress: Optional[str], shipcity: Optional[str], shipregion: Optional[str], shippostalcode: Optional[str], shipcountry: Optional[str], shipperid: Optional[int]):
+    def __init__(self, orderid: int = None, customerid: str = None, employeeid: int = None, orderdate: Optional[datetime.datetime] = None, requireddate: Optional[datetime.datetime] = None, shippeddate: Optional[datetime.datetime] = None, freight: Optional[decimal.Decimal] = None, shipname: Optional[str] = None, shipaddress: Optional[str] = None, shipcity: Optional[str] = None, shipregion: Optional[str] = None, shippostalcode: Optional[str] = None, shipcountry: Optional[str] = None, shipperid: Optional[int] = None):
         self.orderid: int = orderid
         self.customerid: str = customerid
         self.employeeid: int = employeeid
@@ -98,7 +98,7 @@ class Orders:
 
 
 class Products:
-    def __init__(self, productid: int, supplierid: int, categoryid: int, productname: Optional[str], quantityperunit: Optional[str], unitprice: Optional[decimal.Decimal], unitsinstock: Optional[int], unitsonorder: Optional[int], reorderlevel: Optional[int], discontinued: Optional[str]):
+    def __init__(self, productid: int = None, supplierid: int = None, categoryid: int = None, productname: Optional[str] = None, quantityperunit: Optional[str] = None, unitprice: Optional[decimal.Decimal] = None, unitsinstock: Optional[int] = None, unitsonorder: Optional[int] = None, reorderlevel: Optional[int] = None, discontinued: Optional[str] = None):
         self.productid: int = productid
         self.supplierid: int = supplierid
         self.categoryid: int = categoryid

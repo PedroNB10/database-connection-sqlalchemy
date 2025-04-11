@@ -43,9 +43,9 @@ def get_order(order_id):
 @orders_bp.route("/", methods=["POST"])
 def create_order():
     try:
-        order_data = request.get_json()
-        order = Orders(**order_data)
-        order_id = order_controller.create_order(order)
+        data = request.get_json()
+        order_id = order_controller.create_order(data)
+
         return (
             jsonify({"message": "Order created successfully", "order_id": order_id}),
             201,

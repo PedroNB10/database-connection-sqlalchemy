@@ -1,8 +1,8 @@
 import re
 import os
 
-CAMINHO_MODELS_ORIGEM = "models/models.py"
-CAMINHO_MODELS_SIMPLES = "models/psycopg_models.py"
+CAMINHO_MODELS_ORIGEM = "../models/models.py"
+CAMINHO_MODELS_SIMPLES = "../models/psycopg_models.py"
 
 
 def extrair_classes(code):
@@ -18,8 +18,8 @@ def extrair_classes(code):
         if not atributos:
             continue
 
-        # Construtor __init__ com tipos
-        parametros = ", ".join([f"{nome}: {tipo}" for nome, tipo in atributos])
+        # Construtor __init__ com tipos e valores padrão None
+        parametros = ", ".join([f"{nome}: {tipo} = None" for nome, tipo in atributos])
         construtor = f"    def __init__(self, {parametros}):\n"
         for nome, tipo in atributos:
             construtor += f"        self.{nome}: {tipo} = {nome}\n"

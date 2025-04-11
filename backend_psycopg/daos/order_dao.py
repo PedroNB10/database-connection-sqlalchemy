@@ -19,6 +19,7 @@ class OrderDAO(BaseDAO):
             print(f"Erro ao buscar pedidos: {e}")
             raise
 
+    # refatorar aqui para gerar o relatório
     def get_by_id(self, order_id: int) -> Orders | None:
 
         try:
