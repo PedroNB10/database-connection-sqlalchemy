@@ -1,11 +1,26 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-  </head>
-  <body>
-    <h1>Hello World</h1>
-  </body>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>Novo Pedido</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+</head>
+<body>
+  <form id="orderForm">
+    <h1>Novo Pedido</h1>
+
+    <label for="customer_name">Nome do Cliente</label>
+    <input type="text" id="customer_name" name="customerid" required />
+
+    <label for="salesperson_name">Nome do Vendedor</label>
+    <input type="number" id="salesperson_name" name="employeeid" required />
+
+    <div class="form-buttons">
+      <button class="insert_insecure" onclick="submitOrder(event, '/insert_insecure')">Inserir Inseguro</button>
+      <button class="insert_secure" onclick="submitOrder(event, '/insert_secure')">Inserir Seguro</button>
+    </div>
+  </form>
+
+  <script src="{{ url_for('static', filename='js/script.js') }}" defer></script>
+</body>
 </html>
