@@ -1,0 +1,61 @@
+import logging
+from app.daos.base_dao import BaseDAO
+from app.models.models import Orders
+
+logger = logging.getLogger(__name__)
+
+
+class OrderDAO(BaseDAO):
+    def get_all(self) -> list[dict]:
+        """
+        Retrieve all orders using SQLAlchemy ORM and return them as dictionaries.
+        This conversion happens while the session is still active.
+        """
+        try:
+            with self.get_session() as session:
+                orders = session.query(Orders).all()
+                # Convert each order to a plain dictionary using your SerializableMixin's to_dict
+                orders_dicts = [order.to_dict() for order in orders]
+                return orders_dicts
+        except Exception as e:
+            logger.error("Error fetching all orders: %s", e, exc_info=True)
+            raise
+
+    def get_by_id(self, order_id: int) -> dict | None:
+        """
+        Retrieve a single order by its order_id and return it as a dictionary,
+        or None if not found.
+        """
+        try:
+            with self.get_session() as session:
+                order = session.query(Orders).filter(Orders.orderid == order_id).first()
+                if order:
+                    return order.to_dict()
+                return None
+        except Exception as e:
+            logger.error(
+                "Error fetching order with ID %d: %s", order_id, e, exc_info=True
+            )
+            raise
+
+    def create(self, order: Orders) -> int:
+        try:
+            with self.get_session() as session:
+                session.add(order)
+                session.flush()  # Ensure pending changes are sent, so auto-generated keys are set.
+                session.refresh(order)  # Refresh to get the auto-generated fields.
+                order_id = order.orderid
+                # Commit will be handled by the context manager.
+                return order_id
+        except Exception as e:
+            logger.error("Error creating order: %s", e, exc_info=True)
+            raise
+
+    def update(self, order: Orders) -> None:
+        try:
+            with self.get_session() as session:
+                session.merge(order)
+                # Commit is handled by the context manager.
+        except Exception as e:
+            logger.error("Error updating order: %s", e, exc_info=True)
+            raise
