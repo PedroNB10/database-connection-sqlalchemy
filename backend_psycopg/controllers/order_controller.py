@@ -1,8 +1,14 @@
 from typing import Dict, Any, List
 from daos.order_dao import OrderDAO
 from daos.order_details_dao import OrderDetailsDAO
+from daos.customer_dao import CustomerDAO
 from models.psycopg_models import Orders, OrderDetails
-from exceptions import OrderAlreadyExistsError, InvalidOrderDataError, DatabaseError
+from exceptions import (
+    CustomerNotFoundError,
+    OrderAlreadyExistsError,
+    InvalidOrderDataError,
+    DatabaseError,
+)
 
 
 def remove_duplicate_order_details(
@@ -22,6 +28,7 @@ class OrderController:
     def __init__(self) -> None:
         self.order_dao: OrderDAO = OrderDAO()
         self.order_details_dao: OrderDetailsDAO = OrderDetailsDAO()
+        self.customer_dao: CustomerDAO = CustomerDAO()
 
     def create_order(self, order_data: Dict[str, Any]) -> int:
 
@@ -49,6 +56,13 @@ class OrderController:
             ):
                 raise OrderAlreadyExistsError("Order with this ID already exists.")
 
+            customer_exists = self.customer_dao.get_by_id(order_data["customerid"])
+
+            if not customer_exists:
+                raise CustomerNotFoundError(
+                    f"Customer with ID {order_data['customerid']} not found."
+                )
+
             order = Orders(**order_data)
             order_id: int = self.order_dao.create(order)
 
@@ -63,6 +77,9 @@ class OrderController:
             raise
         except InvalidOrderDataError:
             raise
+        except CustomerNotFoundError:
+            raise
+
         except Exception as e:
-            print(f"Erro no OrderController.create_order: {e}")
+            print(f"Error creating order: {e}")
             raise DatabaseError("An error occurred while creating the order") from e

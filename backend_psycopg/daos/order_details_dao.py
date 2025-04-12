@@ -1,6 +1,5 @@
 from daos.base_dao import BaseDAO
 from models.psycopg_models import OrderDetails
-from exceptions import InvalidOrderDataError
 from typing import Any, Dict
 
 
@@ -29,7 +28,7 @@ class OrderDetailsDAO(BaseDAO):
             print(f"Erro ao criar order detail: {e}")
             raise
 
-    def get_by_order_id(self, order_id: int) -> list[Dict[str, Any]]:
+    def get_by_id(self, order_id: int) -> list[Dict[str, Any]]:
         try:
             with self.get_cursor() as cursor:
                 cursor.execute(

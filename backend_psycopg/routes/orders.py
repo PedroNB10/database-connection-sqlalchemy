@@ -1,6 +1,10 @@
 from flask import Blueprint, jsonify, request
 from psycopg import DatabaseError
-from exceptions import InvalidOrderDataError, OrderAlreadyExistsError
+from exceptions import (
+    CustomerNotFoundError,
+    InvalidOrderDataError,
+    OrderAlreadyExistsError,
+)
 from models.psycopg_models import Orders
 from controllers.order_controller import OrderController
 
@@ -56,6 +60,9 @@ def create_order():
 
     except InvalidOrderDataError as iode:
         return jsonify({"error": str(iode)}), 400
+
+    except CustomerNotFoundError as cnfe:
+        return jsonify({"error": str(cnfe)}), 404
 
     except DatabaseError as de:
         return jsonify({"error": str(de)}), 500

@@ -16,10 +16,9 @@ class OrderDAO(BaseDAO):
                     orders.append(Orders(**row_dict))
                 return orders
         except Exception as e:
-            print(f"Erro ao buscar pedidos: {e}")
+            print(f"Error fetching all orders: {e}")
             raise
 
-    # refatorar aqui para gerar o relatório
     def get_by_id(self, order_id: int) -> Orders | None:
 
         try:
@@ -35,7 +34,7 @@ class OrderDAO(BaseDAO):
                 return None
 
         except Exception as e:
-            print(f"Erro ao buscar pedido: {e}")
+            print(f"Error fetching order with ID {order_id}: {e}")
             raise
 
     def create(self, order: Orders) -> int:

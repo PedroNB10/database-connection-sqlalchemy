@@ -117,7 +117,7 @@ document.addEventListener("DOMContentLoaded", () => {
           );
         } else if (response.status === 400) {
           throw new Error(
-            "Dados inválidos. Verifique se todos os campos obrigatórios foram preenchidos."
+            "Há erros nos dados do pedido. Por favor, verifique os campos obrigatórios."
           );
         } else {
           throw new Error(err.error || "Erro ao criar o pedido.");

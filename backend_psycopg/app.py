@@ -3,7 +3,7 @@ import subprocess
 import psycopg
 from flask import Flask, render_template
 from routes.api import api_bp
-from config import DB_HOST, DB_PORT, DB_USER, DB_PASS, DB_NAME, DB_SCHEMA
+from config import DB_HOST, DB_PORT, DB_USER, DB_PASS, DB_NAME
 
 app = Flask(__name__, template_folder="templates")
 app.config.from_object("config")
