@@ -53,7 +53,7 @@ class OrderController:
             order_details: List[Dict[str, Any]] = order_data.pop("order_details", [])
             order_details = remove_duplicate_order_details(order_details)
 
-            required_detail_fields = ["productid"]
+            required_detail_fields = ["productid", "quantity", "unitprice"]
             for detail in order_details:
                 for field in required_detail_fields:
                     if field not in detail or detail[field] is None:
