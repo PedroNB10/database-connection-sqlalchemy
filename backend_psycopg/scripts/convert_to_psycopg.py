@@ -1,8 +1,8 @@
 import re
 import os
 
-CAMINHO_MODELS_ORIGEM = "../models/models.py"
-CAMINHO_MODELS_SIMPLES = "../models/psycopg_models.py"
+CAMINHO_MODELS_ORIGEM = "../app/models/models.py"
+CAMINHO_MODELS_SIMPLES = "../app/models/psycopg_models.py"
 
 
 def extrair_classes(code):

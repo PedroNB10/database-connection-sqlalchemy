@@ -1,5 +1,5 @@
 from psycopg_pool import ConnectionPool
-from config import DB_USER, DB_PASS, DB_HOST, DB_PORT, DB_NAME, DB_SCHEMA
+from config import DB_USER, DB_PASS, DB_HOST, DB_PORT, DB_NAME
 
 pool = ConnectionPool(
     conninfo=f"host={DB_HOST} port={DB_PORT} dbname={DB_NAME} user={DB_USER} password={DB_PASS}",

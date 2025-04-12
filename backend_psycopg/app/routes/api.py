@@ -1,5 +1,5 @@
 from flask import Blueprint
-from routes.orders import orders_bp
+from app.routes.orders import orders_bp
 
 api_bp = Blueprint("api", __name__, url_prefix="/api")
 

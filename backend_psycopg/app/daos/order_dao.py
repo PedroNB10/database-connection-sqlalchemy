@@ -1,5 +1,5 @@
-from daos.base_dao import BaseDAO
-from models.psycopg_models import Orders
+from app.daos.base_dao import BaseDAO
+from app.models.psycopg_models import Orders
 
 
 class OrderDAO(BaseDAO):

@@ -1,4 +1,4 @@
-from daos.base_dao import BaseDAO
+from app.daos.base_dao import BaseDAO
 from models.psycopg_models import Employees
 
 

@@ -1,5 +1,5 @@
-from daos.base_dao import BaseDAO
-from models.psycopg_models import Customers
+from app.daos.base_dao import BaseDAO
+from app.models.psycopg_models import Customers
 
 
 class CustomerDAO(BaseDAO):

@@ -1,8 +1,8 @@
 from typing import Dict, Any, List
-from daos.order_dao import OrderDAO
-from daos.order_details_dao import OrderDetailsDAO
-from daos.customer_dao import CustomerDAO
-from models.psycopg_models import Orders, OrderDetails
+from app.daos.order_dao import OrderDAO
+from app.daos.order_details_dao import OrderDetailsDAO
+from app.daos.customer_dao import CustomerDAO
+from app.models.psycopg_models import Orders, OrderDetails
 from exceptions import (
     CustomerNotFoundError,
     OrderAlreadyExistsError,
@@ -29,6 +29,16 @@ class OrderController:
         self.order_dao: OrderDAO = OrderDAO()
         self.order_details_dao: OrderDetailsDAO = OrderDetailsDAO()
         self.customer_dao: CustomerDAO = CustomerDAO()
+
+    def get_all_orders(self) -> List[Orders]:
+        try:
+            orders = self.order_dao.get_all()
+            if not orders:
+                raise AttributeError("No orders found")
+            return orders
+        except Exception as e:
+            print(f"Error fetching all orders: {e}")
+            raise
 
     def create_order(self, order_data: Dict[str, Any]) -> int:
 

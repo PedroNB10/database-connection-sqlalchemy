@@ -5,8 +5,8 @@ from exceptions import (
     InvalidOrderDataError,
     OrderAlreadyExistsError,
 )
-from models.psycopg_models import Orders
-from controllers.order_controller import OrderController
+from app.models.psycopg_models import Orders
+from app.controllers.order_controller import OrderController
 
 
 orders_bp = Blueprint("orders", __name__)
