@@ -1,6 +1,7 @@
 import logging
 from app.daos.base_dao import BaseDAO
 from app.models.models import Orders
+from app.serialize import serialize
 
 logger = logging.getLogger(__name__)
 
@@ -15,7 +16,7 @@ class OrderDAO(BaseDAO):
             with self.get_session() as session:
                 orders = session.query(Orders).all()
                 # Convert each order to a plain dictionary using your SerializableMixin's to_dict
-                orders_dicts = [order.to_dict() for order in orders]
+                orders_dicts = [serialize(order) for order in orders]
                 return orders_dicts
         except Exception as e:
             logger.error("Error fetching all orders: %s", e, exc_info=True)
@@ -30,7 +31,7 @@ class OrderDAO(BaseDAO):
             with self.get_session() as session:
                 order = session.query(Orders).filter(Orders.orderid == order_id).first()
                 if order:
-                    return order.to_dict()
+                    return serialize(order)
                 return None
         except Exception as e:
             logger.error(

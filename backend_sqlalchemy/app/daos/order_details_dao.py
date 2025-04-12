@@ -2,6 +2,7 @@ import logging
 from typing import Any, Dict, List
 from app.daos.base_dao import BaseDAO
 from app.models.models import OrderDetails
+from app.serialize import serialize
 
 logger = logging.getLogger(__name__)
 
@@ -35,7 +36,7 @@ class OrderDetailsDAO(BaseDAO):
                     .all()
                 )
                 # Convert each OrderDetails instance into a dictionary.
-                details_dicts = [detail.to_dict() for detail in details]
+                details_dicts = [serialize(detail) for detail in details]
                 return details_dicts
         except Exception as e:
             logger.error("Error fetching order details: %s", e, exc_info=True)

@@ -14,10 +14,8 @@ from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
 import datetime
 import decimal
 
-from app.models.mixins import SerializableMixin
 
-
-class Base(DeclarativeBase, SerializableMixin):
+class Base(DeclarativeBase):
     pass
 
 
