@@ -1,19 +1,19 @@
 from app.daos.base_dao import BaseDAO
-from models.psycopg_models import Employees
+from app.models.psycopg_models import Employees
 
 
-class CustomerDAO(BaseDAO):
+class EmployeeDAO(BaseDAO):
 
     def get_all(self) -> list[Employees]:
         with self.get_cursor() as cursor:
             cursor.execute("SELECT * FROM northwind.employees")
             col_names = [desc[0] for desc in cursor.description]
             rows = cursor.fetchall()
-            customers = []
+            employees = []
             for row in rows:
                 row_dict = dict(zip(col_names, row))
-                customers.append(Employees(**row_dict))
-            return customers
+                employees.append(Employees(**row_dict))
+            return employees
 
     def get_by_id(self, id):
         try:

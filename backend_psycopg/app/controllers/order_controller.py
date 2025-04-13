@@ -2,7 +2,9 @@ from typing import Dict, Any, List
 from app.daos.order_dao import OrderDAO
 from app.daos.order_details_dao import OrderDetailsDAO
 from app.daos.customer_dao import CustomerDAO
+from app.daos.product_dao import ProductDAO
 from app.models.psycopg_models import Orders, OrderDetails
+from app.daos.employee_dao import EmployeeDAO
 from exceptions import (
     CustomerNotFoundError,
     OrderAlreadyExistsError,
@@ -29,6 +31,45 @@ class OrderController:
         self.order_dao: OrderDAO = OrderDAO()
         self.order_details_dao: OrderDetailsDAO = OrderDetailsDAO()
         self.customer_dao: CustomerDAO = CustomerDAO()
+        self.employee_dao: EmployeeDAO = EmployeeDAO()
+        self.product_dao: ProductDAO = ProductDAO()
+
+    def get_order_report(self, orderid) -> dict:
+        order = self.order_dao.get_by_id(orderid)
+        if not order:
+            raise AttributeError("Order not found")
+
+        # Assume get_order_details_by_order_id returns list of dicts
+        order_details = self.order_details_dao.get_order_details_by_order_id(orderid)
+        for detail in order_details:
+            product = self.product_dao.get_by_id(detail["productid"])
+            if product:
+                detail["product_name"] = product.productname
+            else:
+                detail["product_name"] = "Unknown Product"
+
+        if not order_details:
+            raise AttributeError("Order details not found")
+
+        customer = self.customer_dao.get_by_id(order.customerid)
+        if not customer:
+            raise AttributeError("Customer not found")
+        customer_name = customer.contactname
+
+        employee = self.employee_dao.get_by_id(order.employeeid)
+        if not employee:
+            raise AttributeError("Employee not found")
+        employee_name = employee.firstname + " " + employee.lastname
+
+        order_report = {
+            "orderid": order.orderid,
+            "order_date": order.orderdate,
+            "customer_name": customer_name,
+            "employee_name": employee_name,
+            "order_details": order_details,
+        }
+
+        return order_report
 
     def get_all_orders(self) -> List[Orders]:
         try:

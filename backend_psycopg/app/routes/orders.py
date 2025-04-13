@@ -44,6 +44,21 @@ def get_order(order_id):
         return jsonify({"error": str(e)}), 500
 
 
+@orders_bp.route("/report/<int:order_id>", methods=["GET"])
+def get_order_report(order_id):
+    try:
+        order_report = order_controller.get_order_report(order_id)
+        if not order_report:
+            return jsonify({"message": "No orders found"}), 404
+
+        return jsonify(order_report), 200
+    except AttributeError as e:
+        return jsonify({"error": "Attribute error occurred", "details": str(e)}), 500
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
 @orders_bp.route("/", methods=["POST"])
 def create_order():
     try:

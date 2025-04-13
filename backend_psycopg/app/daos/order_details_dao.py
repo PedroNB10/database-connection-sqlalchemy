@@ -28,7 +28,7 @@ class OrderDetailsDAO(BaseDAO):
             print(f"Erro ao criar order detail: {e}")
             raise
 
-    def get_by_id(self, order_id: int) -> list[Dict[str, Any]]:
+    def get_order_details_by_order_id(self, order_id: int) -> list[OrderDetails] | None:
         try:
             with self.get_cursor() as cursor:
                 cursor.execute(
@@ -37,6 +37,7 @@ class OrderDetailsDAO(BaseDAO):
                 )
                 col_names = [desc[0] for desc in cursor.description]
                 rows = cursor.fetchall()
+
                 return [dict(zip(col_names, row)) for row in rows]
         except Exception as e:
             print(f"Erro ao buscar order details: {e}")
