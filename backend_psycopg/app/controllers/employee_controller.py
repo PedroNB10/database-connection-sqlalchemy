@@ -34,37 +34,15 @@ class EmployeeController:
                 or []
             )
 
-            emp_order_details: List[OrderDetails] = []
-            for order in emp_orders:
-                details = self.order_details_dao.get_order_details_by_order_id(
-                    order.orderid
-                )
-                if details:
-                    if isinstance(details, list):
-                        emp_order_details.extend(details)
-                    else:
-                        emp_order_details.append(details)
-
-            emp_total_amount = 0
-            for detail in emp_order_details:
-                qty = detail.quantity if detail.quantity is not None else 0
-                price = detail.unitprice if detail.unitprice is not None else 0
-                discount = detail.discount if detail.discount is not None else 0
-                emp_total_amount += qty * price * (1 - discount)
-
             ranking_list.append(
                 {
                     "employee_id": emp.employeeid,
                     "employee_name": f"{emp.firstname} {emp.lastname}",
                     "total_orders": len(emp_orders),
-                    "total_amount": emp_total_amount,
-                    "order_details": [
-                        serialize(detail) for detail in emp_order_details
-                    ],
                 }
             )
 
-        ranking_list.sort(key=lambda x: float(x["total_amount"]), reverse=True)
+        ranking_list.sort(key=lambda x: x["total_orders"], reverse=True)
 
         for index, employee in enumerate(ranking_list, start=1):
             employee["rank"] = index
