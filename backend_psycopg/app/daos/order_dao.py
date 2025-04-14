@@ -1,3 +1,4 @@
+from typing import List
 from app.daos.base_dao import BaseDAO
 from app.models.psycopg_models import Orders
 
@@ -35,6 +36,29 @@ class OrderDAO(BaseDAO):
 
         except Exception as e:
             print(f"Error fetching order with ID {order_id}: {e}")
+            raise
+
+    def get_total_orders_by_employee_id(
+        self, employee_id: int, start_date: str, end_date: str
+    ) -> List[Orders] | None:
+        try:
+            with self.get_cursor() as cursor:
+                cursor.execute(
+                    "SELECT * FROM northwind.orders WHERE employeeid = %s AND orderdate BETWEEN %s AND %s",
+                    (employee_id, start_date, end_date),
+                )
+                col_names = [desc[0] for desc in cursor.description]
+                rows = cursor.fetchall()
+                if rows:
+                    orders = []
+                    for row in rows:
+                        row_dict = dict(zip(col_names, row))
+                        orders.append(Orders(**row_dict))
+                    return orders
+                return None
+
+        except Exception as e:
+            print(f"Error fetching orders for employee ID {employee_id}: {e}")
             raise
 
     def create(self, order: Orders) -> int:

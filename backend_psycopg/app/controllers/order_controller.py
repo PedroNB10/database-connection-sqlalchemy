@@ -12,6 +12,8 @@ from exceptions import (
     DatabaseError,
 )
 
+from app.utils.serialize import serialize
+
 
 def remove_duplicate_order_details(
     order_details: List[Dict[str, Any]],
@@ -39,14 +41,13 @@ class OrderController:
         if not order:
             raise AttributeError("Order not found")
 
-        # Assume get_order_details_by_order_id returns list of dicts
         order_details = self.order_details_dao.get_order_details_by_order_id(orderid)
         for detail in order_details:
-            product = self.product_dao.get_by_id(detail["productid"])
+            product = self.product_dao.get_by_id(detail.productid)
             if product:
-                detail["product_name"] = product.productname
+                setattr(detail, "product_name", product.productname)
             else:
-                detail["product_name"] = "Unknown Product"
+                setattr(detail, "product_name", "Unknown Product")
 
         if not order_details:
             raise AttributeError("Order details not found")
@@ -66,7 +67,7 @@ class OrderController:
             "order_date": order.orderdate,
             "customer_name": customer_name,
             "employee_name": employee_name,
-            "order_details": order_details,
+            "order_details": [serialize(order) for order in order_details],
         }
 
         return order_report

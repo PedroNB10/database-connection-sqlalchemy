@@ -37,8 +37,13 @@ class OrderDetailsDAO(BaseDAO):
                 )
                 col_names = [desc[0] for desc in cursor.description]
                 rows = cursor.fetchall()
+                order_details = []
+                for row in rows:
+                    row_dict = dict(zip(col_names, row))
+                    order_details.append(OrderDetails(**row_dict))
 
-                return [dict(zip(col_names, row)) for row in rows]
+                return order_details
+
         except Exception as e:
             print(f"Erro ao buscar order details: {e}")
             raise
