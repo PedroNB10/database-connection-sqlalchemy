@@ -115,7 +115,7 @@ legend {
 /* Botão para adicionar order detail */
 #addDetailButton {
   display: block;
-  margin: 0 auto 1rem auto;
+  margin: 0 auto;
   padding: 0.6rem 1.2rem;
   background: #007bff;
   color: white;
