@@ -34,8 +34,15 @@ class EmployeeController:
                 or []
             )
 
+            emp_orders_details = (
+                self.order_dao.get_total_orders_by_employee_id(
+                    emp.employeeid, start_date, end_date
+                )
+                or []
+            )
+
             emp_order_details: List[OrderDetails] = []
-            for order in emp_orders:
+            for order in emp_orders_details:
                 details = self.order_details_dao.get_order_details_by_order_id(
                     order.orderid
                 )
@@ -57,14 +64,12 @@ class EmployeeController:
                     "employee_id": emp.employeeid,
                     "employee_name": f"{emp.firstname} {emp.lastname}",
                     "total_orders": len(emp_orders),
+                    "total_orders_details": len(emp_order_details),
                     "total_amount": emp_total_amount,
-                    "order_details": [
-                        serialize(detail) for detail in emp_order_details
-                    ],
                 }
             )
 
-        ranking_list.sort(key=lambda x: float(x["total_amount"]), reverse=True)
+        ranking_list.sort(key=lambda x: float(x["total_orders"]), reverse=True)
 
         for index, employee in enumerate(ranking_list, start=1):
             employee["rank"] = index
