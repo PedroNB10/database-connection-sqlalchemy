@@ -15,9 +15,8 @@ employee_controller = EmployeeController()
 @employee_bp.route("/report", methods=["GET"])
 def get_employees_ranking_report():
     try:
-        data = request.get_json()
-        start_date_str = data.get("start_date")
-        end_date_str = data.get("end_date")
+        start_date_str = request.args.get("start_date")
+        end_date_str = request.args.get("end_date")
         if not start_date_str or not end_date_str:
             return (
                 jsonify(
