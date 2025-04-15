@@ -14,6 +14,7 @@ class CustomerDAO(BaseDAO):
         try:
             with self.get_session() as session:
                 customers = session.query(Customers).all()
+                session.expunge_all()
                 return customers
         except Exception as e:
             logger.error("Error fetching all customers: %s", e, exc_info=True)
@@ -30,6 +31,7 @@ class CustomerDAO(BaseDAO):
                     .filter(Customers.customerid == customer_id)
                     .first()
                 )
+                session.expunge(customer)
                 return customer
         except Exception as e:
             logger.error(

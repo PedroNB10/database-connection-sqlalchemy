@@ -14,6 +14,7 @@ class EmployeeDAO(BaseDAO):
         try:
             with self.get_session() as session:
                 employees = session.query(Employees).all()
+                session.expunge_all()
                 return employees
         except Exception as e:
             logger.error("Error fetching all employees: %s", e, exc_info=True)
@@ -28,6 +29,7 @@ class EmployeeDAO(BaseDAO):
                 employee = (
                     session.query(Employees).filter(Employees.employeeid == id).first()
                 )
+                session.expunge(employee)
                 return employee
         except Exception as e:
             logger.error("Error fetching employee with ID %d: %s", id, e, exc_info=True)

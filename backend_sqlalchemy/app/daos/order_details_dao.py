@@ -41,3 +41,13 @@ class OrderDetailsDAO(BaseDAO):
         except Exception as e:
             logger.error("Error fetching order details: %s", e, exc_info=True)
             raise
+
+    def get_order_details_by_order_id(self, order_id) -> List[OrderDetails] | None:
+        try:
+            with self.get_session() as session:
+                orders = session.query(OrderDetails).filter(OrderDetails.orderid == order_id).all()
+                session.expunge_all()
+                return orders
+        except Exception as e:
+            logger.error("Error getting orders by employee id")
+            raise
