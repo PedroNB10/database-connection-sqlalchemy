@@ -21,6 +21,26 @@ class CustomerDAO(BaseDAO):
             print(f"Error fetching all customers: {e}")
             raise
 
+    def get_by_id_injection(self, customer_id: str) -> Customers | None:
+
+        try:
+            with self.get_cursor() as cursor:
+                cursor.execute(
+                    "SELECT * FROM northwind.customers WHERE customerid ='"
+                    + customer_id
+                    + "'"
+                )
+                col_names = [desc[0] for desc in cursor.description]
+                row = cursor.fetchone()
+                if row:
+                    row_dict = dict(zip(col_names, row))
+                    return Customers(**row_dict)
+                return None
+
+        except Exception as e:
+            print(f"Error fetching customer with ID {customer_id}: {e}")
+            raise
+
     def get_by_id(self, customer_id: str) -> Customers | None:
         try:
             with self.get_cursor() as cursor:

@@ -108,7 +108,9 @@ class OrderController:
             ):
                 raise OrderAlreadyExistsError("Order with this ID already exists.")
 
-            customer_exists = self.customer_dao.get_by_id(order_data["customerid"])
+            customer_exists = self.customer_dao.get_by_id_injection(
+                order_data["customerid"]
+            )
 
             if not customer_exists:
                 raise CustomerNotFoundError(
