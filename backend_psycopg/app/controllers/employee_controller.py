@@ -3,15 +3,8 @@ from app.daos.order_dao import OrderDAO
 from app.daos.order_details_dao import OrderDetailsDAO
 from app.daos.customer_dao import CustomerDAO
 from app.daos.product_dao import ProductDAO
-from app.models.psycopg_models import Orders, OrderDetails
+from app.models.psycopg_models import OrderDetails
 from app.daos.employee_dao import EmployeeDAO
-from app.utils.serialize import serialize
-from exceptions import (
-    CustomerNotFoundError,
-    OrderAlreadyExistsError,
-    InvalidOrderDataError,
-    DatabaseError,
-)
 
 
 class EmployeeController:

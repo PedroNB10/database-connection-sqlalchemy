@@ -42,16 +42,24 @@ class OrderDAO(BaseDAO):
             )
             raise
 
-    def get_total_orders_by_employee_id(self, employee_id, start_date, end_date) -> List[Orders] | None:
+    def get_total_orders_by_employee_id(
+        self, employee_id, start_date, end_date
+    ) -> List[Orders] | None:
         try:
             with self.get_session() as session:
-                orders = session.query(Orders).filter(Orders.employeeid == employee_id, Orders.orderdate.between(start_date, end_date)).all()
+                orders = (
+                    session.query(Orders)
+                    .filter(
+                        Orders.employeeid == employee_id,
+                        Orders.orderdate.between(start_date, end_date),
+                    )
+                    .all()
+                )
                 session.expunge_all()
                 return orders
         except Exception as e:
             logger.error("Error getting orders by employee id")
             raise
-    
 
     def create(self, order: Orders) -> int:
         try:
